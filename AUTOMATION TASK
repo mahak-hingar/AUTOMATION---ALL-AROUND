@@ -1,104 +1,6 @@
 import os
 op='y'
 os.system("clear")
-def core():
-    nn_ip = input('Enter NameNode ip and hadoop port eg. hdfs://1.2.3.4:9000:')
-    print(nn_ip)
-    os.system('echo \<configuration\> >> core-site.xml')
-    os.system('echo \<property\> >> core-site.xml')
-    os.system("echo \<name\>fs.default.name\<\/name\> >> core-site.xml")
-    os.system("echo \<value\>{}\<\/value\> >> core-site.xml".format(nn_ip))
-    os.system('echo \<\/property\> >> core-site.xml')
-    os.system("echo \<\/configuration\> >> core-site.xml")
-    os.system("cp core-site.xml /etc/hadoop/core-site.xml")
-    os.system("rm -rf core-site.xml")
-    os.system("cp cp.xml core-site.xml")
-def hdfs():
-    dndir = input('Enter directory name you want to create for datanode:')
-    print(dndir)
-
-    os.system('echo \<configuration\> >> hdfs-site.xml')
-    os.system('echo \<property\> >> hdfs-site.xml')
-    os.system("echo \<name\>dfs.data.dir\<\/name\> >> hdfs-site.xml")
-    os.system("echo \<value\>{}\<\/value\> >> hdfs-site.xml".format(dndir))
-    os.system('echo \<\/property\> >> hdfs-site.xml')
-    os.system("echo \<\/configuration\> >> hdfs-site.xml")
-    os.system("cp hdfs-site.xml /etc/hadoop/hdfs-site.xml")
-
-    os.system("mkdir {}".format(dndir))
-    os.system("rm -rf hdfs-site.xml")
-    os.system("cp hd.xml hdfs-site.xml")
-
-
-def hadoop():
-op='y'
-while op=='y':
-#os.system("tput setaf 3")
-print("\t\tWelcome To HADOOP MENU")
-#os.system("tput setaf 7")
-print("\t\t\t---------------------------------------")
-print("""\n
-Enter 1 to open to  check hadoop is started or not 
-ENter 2 to install hadoop configuration
-Enter 3 to open the hdfs-site.xml file
-Enter 4 to open the core-site.xml file 
-Enter 5 to view IP Address
-Enter 6 to see all the ports associated 
-Enter 7 to launch data node service
-Enter 8 to launch name node service
-Enter 9 to view the Hadoop Report
-Enter 10 to shut down the firewall setting
-Enter 11 to list out all stuff in hadoop cluster
-Enter 12 to put file/folder in hadoop cluster
-Enter 13 to remove file/folder in hadoop cluster
-Enter 14 to view file/folder in hadoop cluster
-Enter 15 to format namenode
-Enter 16 to go back main menu
-Enter 17 to exit 
-
-""")
-ch=input ("enter your choice ")
-ch=int(ch)
-if ch==1:
-   os.system("jps")
-elif ch==2:
-   os.system("rpm -ivh  jdk-8u171-linux-x64.rpm ")
-   os.system("rpm -ivh hadoop-1.2.1-1.x86_64.rpm --force")
-elif ch==3:
-   hdfs()
-elif ch==4:
-   core()
-elif ch==5:
-   os.system("ifconfig enp0s3")
-elif ch==6:
-   os.system("netsat -tnlp")
-elif ch==7:
-   os.system("hadoop-daemon.sh start datanode")
-elif ch==8:
-   os.system("hadoop-daemon.sh start namenode")
-elif ch==9:
-   os.system("hadoop dfsadmin -report")
-elif ch==10:
-   os.system("systemctl stop firewalld")
-elif ch==11:
-   os.system("hadoop fs -ls/")
-elif ch==12:
-   yn=input("Do you want to continue with default block size (y/n)")
-   cmd=input("Enter your file /folder path ")
-
-   os.system("hadoop fs -put {} /".format(cmd))
-elif ch==13:
-   cmd=input("Enter your file /folder path ")
-   os.system("hadoop fs -rm / {} ".format(cmd))
-elif ch==14:
-   cmd=input("Enter your file /folder name ")
-   os.system("hadoop fs -cat / {} ".format(cmd))
-elif ch==15:
-                    os.system("hadoop namenode -format") 
-elif ch==16:
-                    print("-----------YOU ARE IN MAIN MENU--------------")
-                    return
- 
 def docker():
         op='y'
         while op == "y":
@@ -314,3 +216,103 @@ if op=='y':
 else:
    exit()
 
+
+
+def core():
+    nn_ip = input('Enter NameNode ip and hadoop port eg. hdfs://1.2.3.4:9000:')
+    print(nn_ip)
+    os.system('echo \<configuration\> >> core-site.xml')
+    os.system('echo \<property\> >> core-site.xml')
+    os.system("echo \<name\>fs.default.name\<\/name\> >> core-site.xml")
+    os.system("echo \<value\>{}\<\/value\> >> core-site.xml".format(nn_ip))
+    os.system('echo \<\/property\> >> core-site.xml')
+    os.system("echo \<\/configuration\> >> core-site.xml")
+    os.system("cp core-site.xml /etc/hadoop/core-site.xml")
+    os.system("rm -rf core-site.xml")
+    os.system("cp cp.xml core-site.xml")
+def hdfs():
+    dndir = input('Enter directory name you want to create for datanode:')
+    print(dndir)
+
+    os.system('echo \<configuration\> >> hdfs-site.xml')
+    os.system('echo \<property\> >> hdfs-site.xml')
+    os.system("echo \<name\>dfs.data.dir\<\/name\> >> hdfs-site.xml")
+    os.system("echo \<value\>{}\<\/value\> >> hdfs-site.xml".format(dndir))
+    os.system('echo \<\/property\> >> hdfs-site.xml')
+    os.system("echo \<\/configuration\> >> hdfs-site.xml")
+    os.system("cp hdfs-site.xml /etc/hadoop/hdfs-site.xml")
+
+    os.system("mkdir {}".format(dndir))
+    os.system("rm -rf hdfs-site.xml")
+    os.system("cp hd.xml hdfs-site.xml")
+
+
+def hadoop():
+op='y'
+while op=='y':
+#os.system("tput setaf 3")
+print("\t\tWelcome To HADOOP MENU")
+#os.system("tput setaf 7")
+print("\t\t\t---------------------------------------")
+print("""\n
+Enter 1 to open to  check hadoop is started or not 
+ENter 2 to install hadoop configuration
+Enter 3 to open the hdfs-site.xml file
+Enter 4 to open the core-site.xml file 
+Enter 5 to view IP Address
+Enter 6 to see all the ports associated 
+Enter 7 to launch data node service
+Enter 8 to launch name node service
+Enter 9 to view the Hadoop Report
+Enter 10 to shut down the firewall setting
+Enter 11 to list out all stuff in hadoop cluster
+Enter 12 to put file/folder in hadoop cluster
+Enter 13 to remove file/folder in hadoop cluster
+Enter 14 to view file/folder in hadoop cluster
+Enter 15 to format namenode
+Enter 16 to go back main menu
+Enter 17 to exit 
+
+""")
+ch=input ("enter your choice ")
+ch=int(ch)
+if ch==1:
+   os.system("jps")
+elif ch==2:
+   os.system("rpm -ivh  jdk-8u171-linux-x64.rpm ")
+   os.system("rpm -ivh hadoop-1.2.1-1.x86_64.rpm --force")
+elif ch==3:
+   hdfs()
+elif ch==4:
+   core()
+elif ch==5:
+   os.system("ifconfig enp0s3")
+elif ch==6:
+   os.system("netsat -tnlp")
+elif ch==7:
+   os.system("hadoop-daemon.sh start datanode")
+elif ch==8:
+   os.system("hadoop-daemon.sh start namenode")
+elif ch==9:
+   os.system("hadoop dfsadmin -report")
+elif ch==10:
+   os.system("systemctl stop firewalld")
+elif ch==11:
+   os.system("hadoop fs -ls/")
+elif ch==12:
+   yn=input("Do you want to continue with default block size (y/n)")
+   cmd=input("Enter your file /folder path ")
+
+   os.system("hadoop fs -put {} /".format(cmd))
+elif ch==13:
+   cmd=input("Enter your file /folder path ")
+   os.system("hadoop fs -rm / {} ".format(cmd))
+elif ch==14:
+   cmd=input("Enter your file /folder name ")
+   os.system("hadoop fs -cat / {} ".format(cmd))
+elif ch==15:
+                    os.system("hadoop namenode -format") 
+elif ch==16:
+                    print("-----------YOU ARE IN MAIN MENU--------------")
+                    return
+ 
