@@ -1,0 +1,316 @@
+import os
+op='y'
+os.system("clear")
+def core():
+    nn_ip = input('Enter NameNode ip and hadoop port eg. hdfs://1.2.3.4:9000:')
+    print(nn_ip)
+    os.system('echo \<configuration\> >> core-site.xml')
+    os.system('echo \<property\> >> core-site.xml')
+    os.system("echo \<name\>fs.default.name\<\/name\> >> core-site.xml")
+    os.system("echo \<value\>{}\<\/value\> >> core-site.xml".format(nn_ip))
+    os.system('echo \<\/property\> >> core-site.xml')
+    os.system("echo \<\/configuration\> >> core-site.xml")
+    os.system("cp core-site.xml /etc/hadoop/core-site.xml")
+    os.system("rm -rf core-site.xml")
+    os.system("cp cp.xml core-site.xml")
+def hdfs():
+    dndir = input('Enter directory name you want to create for datanode:')
+    print(dndir)
+
+    os.system('echo \<configuration\> >> hdfs-site.xml')
+    os.system('echo \<property\> >> hdfs-site.xml')
+    os.system("echo \<name\>dfs.data.dir\<\/name\> >> hdfs-site.xml")
+    os.system("echo \<value\>{}\<\/value\> >> hdfs-site.xml".format(dndir))
+    os.system('echo \<\/property\> >> hdfs-site.xml')
+    os.system("echo \<\/configuration\> >> hdfs-site.xml")
+    os.system("cp hdfs-site.xml /etc/hadoop/hdfs-site.xml")
+
+    os.system("mkdir {}".format(dndir))
+    os.system("rm -rf hdfs-site.xml")
+    os.system("cp hd.xml hdfs-site.xml")
+
+
+def hadoop():
+op='y'
+while op=='y':
+#os.system("tput setaf 3")
+print("\t\tWelcome To HADOOP MENU")
+#os.system("tput setaf 7")
+print("\t\t\t---------------------------------------")
+print("""\n
+Enter 1 to open to  check hadoop is started or not 
+ENter 2 to install hadoop configuration
+Enter 3 to open the hdfs-site.xml file
+Enter 4 to open the core-site.xml file 
+Enter 5 to view IP Address
+Enter 6 to see all the ports associated 
+Enter 7 to launch data node service
+Enter 8 to launch name node service
+Enter 9 to view the Hadoop Report
+Enter 10 to shut down the firewall setting
+Enter 11 to list out all stuff in hadoop cluster
+Enter 12 to put file/folder in hadoop cluster
+Enter 13 to remove file/folder in hadoop cluster
+Enter 14 to view file/folder in hadoop cluster
+Enter 15 to format namenode
+Enter 16 to go back main menu
+Enter 17 to exit 
+
+""")
+ch=input ("enter your choice ")
+ch=int(ch)
+if ch==1:
+   os.system("jps")
+elif ch==2:
+   os.system("rpm -ivh  jdk-8u171-linux-x64.rpm ")
+   os.system("rpm -ivh hadoop-1.2.1-1.x86_64.rpm --force")
+elif ch==3:
+   hdfs()
+elif ch==4:
+   core()
+elif ch==5:
+   os.system("ifconfig enp0s3")
+elif ch==6:
+   os.system("netsat -tnlp")
+elif ch==7:
+   os.system("hadoop-daemon.sh start datanode")
+elif ch==8:
+   os.system("hadoop-daemon.sh start namenode")
+elif ch==9:
+   os.system("hadoop dfsadmin -report")
+elif ch==10:
+   os.system("systemctl stop firewalld")
+elif ch==11:
+   os.system("hadoop fs -ls/")
+elif ch==12:
+   yn=input("Do you want to continue with default block size (y/n)")
+   cmd=input("Enter your file /folder path ")
+
+   os.system("hadoop fs -put {} /".format(cmd))
+elif ch==13:
+   cmd=input("Enter your file /folder path ")
+   os.system("hadoop fs -rm / {} ".format(cmd))
+elif ch==14:
+   cmd=input("Enter your file /folder name ")
+   os.system("hadoop fs -cat / {} ".format(cmd))
+elif ch==15:
+                    os.system("hadoop namenode -format") 
+elif ch==16:
+                    print("-----------YOU ARE IN MAIN MENU--------------")
+                    return
+ 
+def docker():
+        op='y'
+        while op == "y":
+           # os.system("tput setaf 3")
+            print("\t\t\tWelcome To MENU")
+           # os.system("tput setaf 7")
+            print("\t\t---------------------------------------")
+            print("""\n
+            Enter 1 to view how many  os is running in the system
+   Enter 2 to launch the docker O.S
+   Enter 3 to start docker setting
+   Enter 4 to view status of  docker setting
+   Enter 5 to view docker images available
+   Enter 6 to download docker image from hub.docker.com
+   Enter 7 to start the docker O.S
+   Enter 8 to stop the docker O.S
+   Enter 9 to attach the docker O.S terminal
+   Enter 10 to view all O.S
+   Enter 11 to view the docker info
+   Enter 12 to rm docker container 
+   Enter 13 to rm docker image 
+   ENTER 14 to search docker search images 
+   ENTER 15 to copy content to docker container from Base O.S
+   ENTER 16 to copy content from docker container to Base O.S
+   Enter 17 go to main menu
+            Enter 18 to exit
+
+   """)
+            ch=input ("enter your choice ")
+            ch=int(ch)
+            if ch==1:
+                os.system("docker ps")
+            elif ch==2:
+                osname=input("Enter the Name of Image  ")
+                choice=input("DO YOU WANT TO GO TO LATEST VERSION OR SPECIFIC IF SPECIFIC  type   (y/n)")
+                choice1=input("DO YOU WANT TO Give NAME TO CONTAINER  (y/n)")
+                if choice1=='y':
+                    if choice=='y':
+                        ver=input("Enter the SPECIFIC Version ") 
+                        nam=input("Enter the name of O.S")
+                        os.system("docker run -it --name {} {}:{}".format(nam,osname,ver))
+                    else:
+                        name=input("Enter the Name Of O.S")
+                        os.system("docker run -it  --name {} {}".format(name,osname))
+                else:
+                    if choice=='y':
+                        ver=input("Enter the SPECIFIC Version ") 
+                        os.system("docker run -it {}:{}".format(osname,ver))
+                    else:
+                        os.system("docker run -it  {}".format(osname))
+            elif ch==3:
+                os.system("systemctl start docker")
+            elif ch==4:
+                os.system("systemctl status docker")
+            elif ch==5:
+                os.system("docker images")
+            elif ch==6:
+                osname=input("Enter the Name of OS image /Docker image  ")
+                choice=input("DO YOU WANT TO GO TO LASTEST VERSION ON SPECIFIC IF SPECIFIC  type   (y/n)")
+                if choice=='y':
+                    ver=input("Enter the SPECIFIC Version ") 
+                    os.system("docker pull  {}:{} ".format(osname,ver))
+                else:
+                    os.system("docker pull  {}".format(osname))
+            elif ch==7:
+                osname=input("Enter the Name of OS given ")
+                os.system("docker start  {} ".format(osname))
+            elif ch==8:
+                osname=input("Enter the Name of OS given  ")
+                os.system("docker stop  {} ".format(osname))
+            elif ch==9:
+                osname=input("Enter the Name of OS  ")
+                os.system("docker attach  {} ".format(osname))
+            elif ch==10:
+                os.system("docker ps -a")
+            elif ch==11:
+                os.system("docker info")
+            elif ch==12:
+                osname=input("Enter the Name of Container Name /ID  ")
+                os.system("docker rm  {} ".format(osname))
+            elif ch==13:
+                osname=input("Enter the Name of Docker image  ")
+                os.system("docker rmi  {} ".format(osname))
+            elif ch==14:
+                name=input("enter the image search docker hub")
+                os.system("docker search {}".format(name))
+            elif ch==15:
+                name=input("enter the name of Container ")
+                path1=input("enter the name of path of file in Base O.S to copy on container ")
+                path2=input("enter the name of path of file in conatiner to copy from Base O.S ")
+                os.system("docker cp {} {}:{}".format(path1,name,path2))
+            elif ch==16:
+                name=input("enter the name of Container ")
+                path2=input("enter the name of path of file in Base O.S to copy from container ")
+                path1=input("enter the name of path of file in conatiner to copy in Base O.S ")
+                os.system("docker cp {}:{} {}".format(name,path1,path2))
+            elif ch==17:
+                print("-----------YOU ARE IN MAIN MENU--------------")
+                return
+            elif ch==18:
+                exit() 
+op='y'
+while op=='y':
+#os.system("tput setaf 3")
+print("\t\t\tWelcome To MENU")
+#os.system("tput setaf 7")
+print("\t\t---------------------------------------")
+print("""\n
+Enter 1 to open firefox
+Enter 2 to view the location of program /command 
+Enter 3  to view stuff at your location
+Enter 4  to go to location
+Enter 5  to view program paused in background 
+Enter 6  to resume job 
+Enter 7 to put command /program in background in running state
+Enter 8 To use cli text editor 
+Enter 9 to make directory
+Enter 10 to make empty file 
+Enter 11 to create user and make password
+Enter 12 to know who you are 
+Enter 13 to maximum limit of hard disk
+Enter 14 to view current utilization of RAM
+Enter 15 to keep run the program /command again by default of 2 second
+Enter 16 to view content of file 
+Enter 17 to run commands present in the file  
+Enter 18 to shutdown the Opearting system
+Enter 19 to view hadoop menu
+Enter 20 to launch bc calculator
+Enter 21 to remote login on other system
+Enter 22 to reboot the Opearting system
+Enter 23 to clear cache memory
+Enter 24 to docker menu
+Enter 25 to exit 
+""")
+ch=input ("enter your choice ")
+ch=int(ch)
+if ch==1:
+   os.system("firefox")
+elif ch==2:
+   com=input("Enter your Command /Program  :")
+   os.system('which {}'.format(com))
+elif ch==3:
+   os.system("ls")
+elif ch==4:
+   cmd=input("Enter your location to which you want to go ")
+   os.system('cd {}'.format(cmd))
+elif ch==5:
+   os.system("jobs")
+elif ch==6:
+   cmd=input("Enter the job id ")
+   os.system('fg {}'.format(cmd))
+elif ch==7:
+   cmd=input("Enter the command")
+   os.system("{} &".format(cmd))
+elif ch==8:
+   cmd=input("Enter the name of file")
+   os.system(" vim {} ".format(cmd))
+elif ch==9:
+   cmd=input("Enter the name of folder")
+   os.system(" mkdir {} ".format(cmd))
+elif ch==10:
+   cmd=input("Enter the name of file")
+   os.system(" touch {} ".format(cmd))
+elif ch==11:
+   user=input("Enter the name of user")
+   os.system(" useradd {} ".format(user))
+   os.system(" passwd {} ".format(user))
+elif ch==12:
+   os.system("whoami")
+elif ch==13:
+   os.system("df -h")
+elif ch==14:
+   os.system("free -m")
+elif ch==15:
+   cmd=input("Enter the command")
+   choice=input("DO YOU WANT TO CHANGE THE DEFAULT INTERVAL (y/n)")
+   if choice=='y':
+                inter=input("Enter your your desired interval") 
+                os.system("watch -n {} {} ".format(inter,cmd))
+   else:
+                os.system("watch {}".format(cmd))
+elif ch==16:
+   cmd=input("Enter the name of file")
+   os.system("cat {} ".format(cmd))
+elif ch==17:
+   cmd=input("Enter the name of file :")
+   os.system("source {} ".format(cmd))
+elif ch==18:
+   os.system("init 0")
+elif ch==19:
+   hadoop()
+elif ch==20:
+   os.system("bc")
+elif ch==21:
+            ip=input("Enter your IP Address")
+            os.system("scp task8.py {}:/root".format(ip))
+            os.system("scp hd.xml {}:/root".format(ip))
+            os.system("scp cp.xml {}:/root".format(ip))
+            os.system("ssh {} python3 task8.py".format(ip))
+elif ch==22:
+   os.system("init 6")
+elif ch==23:
+   os.system("echo 3 > /proc/sys/vm/drop_caches")
+elif ch==24:
+   docker()
+elif ch==25:
+   exit()
+else:
+   print("option is unavailable")
+op=input("Do you want to continue (y/n)")
+if op=='y':
+   os.system("clear")
+else:
+   exit()
+
